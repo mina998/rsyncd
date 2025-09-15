@@ -24,8 +24,8 @@ fi
 # 安装依赖
 apt install rsync zstd -y
 # 设置权限
-chmod +x ./client.sh
-chmod +x ./client_install.sh
+chmod +x ./backup.sh
+chmod +x ./install_client.sh
 # 写入密码文件
 echo "$CLIENT_PASSWORD" > $CLIENT_PASSWORD_FILE
 # 设置权限
@@ -36,9 +36,9 @@ CURRENT_DIR=$(pwd)
 # 安全地管理定时任务,先删除旧的备份任务,再添加新的
 echo "正在配置定时任务..."
 # 删除包含 client.sh 的旧任务,保留其他任务
-crontab -l 2>/dev/null | grep -v "${CURRENT_DIR}/client.sh" | crontab -
+crontab -l 2>/dev/null | grep -v "${CURRENT_DIR}/backup.sh" | crontab -
 # 添加定时任务
-(crontab -l 2>/dev/null; echo "0 13 * * * $CURRENT_DIR/client.sh >> $CURRENT_DIR/client.log 2>&1") | crontab -
+(crontab -l 2>/dev/null; echo "0 13 * * * $CURRENT_DIR/backup.sh >> $CURRENT_DIR/backup.log 2>&1") | crontab -
 # 验证定时任务
 echo "当前定时任务列表："
 crontab -l

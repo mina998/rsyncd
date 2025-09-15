@@ -13,7 +13,7 @@ WORK_DIR=$(dirname "$SYMLINK_PATH")
 # 路径转换
 WORK_DIR=$(realpath "$WORK_DIR")
 # 备份目录
-BACKUP_DIR="${WORK_DIR}/backup"
+BACKUP_DIR="${WORK_DIR}/website-backup"
 # 创建工作目录
 if [ ! -d "$BACKUP_DIR" ]; then
     mkdir -p $BACKUP_DIR
