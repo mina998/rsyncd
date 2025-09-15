@@ -1,28 +1,24 @@
 #!/bin/bash
-rm -rf .git 
-rm docker-compose.yml
-rm README.md
-rm rsyncd.conf
-rm rsyncd.secrets
-rm website-backup/
+# 加载环境变量
+source env.sh
+# 删除无用文件
+rm -rf .git 2>/dev/null
+rm -f docker-compose.yml README.md rsyncd.conf rsyncd.secrets 2>/dev/null
+rm -rf website-backup/ 2>/dev/null
+# 如果docker未安装退出
+if ! command -v docker &> /dev/null; then
+    echo "docker未安装"
+    exit 1
+fi
 # 安装依赖
 apt install rsync zstd -y
 # 设置权限
 chmod +x ./client.sh
 chmod +x ./client_install.sh
-# 交互接收密码
-read -p "请输入当前用户密码: " SYNC_SERVER_PASSWORD
-# 确认密码
-read -p "请确认当前用户密码: " SYNC_SERVER_PASSWORD_CONFIRM
-# 判断密码是否一致
-if [ "$SYNC_SERVER_PASSWORD" != "$SYNC_SERVER_PASSWORD_CONFIRM" ]; then
-    echo "密码不一致"
-    exit 1
-fi
 # 写入密码文件
-echo "$SYNC_SERVER_PASSWORD" > /root/client
+echo "$CLIENT_PASSWORD" > $CLIENT_PASSWORD_FILE
 # 设置权限
-chmod 600 ./client
+chmod 600 $CLIENT_PASSWORD_FILE
 
 # 当前目录
 CURRENT_DIR=$(pwd)

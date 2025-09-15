@@ -1,7 +1,9 @@
 # 同步服务器地址
-SYNC_SERVER_ADDRESS="10.0.0.178"
+SYNC_SERVER_ADDRESS="10.0.0.178:873"
+# 客户端用户密码
+CLIENT_PASSWORD='463000'
 # 密码文件
-SYNC_SERVER_PASSWORD_FILE="./client.txt"
+CLIENT_PASSWORD_FILE="./client"
 # 数据库密码
 MYSQL_ROOT_PASSWORD="463888"
 # 定义同步根目录 结尾不要加 /

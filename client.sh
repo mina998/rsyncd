@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 加载环境变量
-source .env
+source env.sh
 # 当前站点根目录
 CURRENT_SITE_ROOT=""
 # 当前站点名称
@@ -73,4 +73,4 @@ for dir in $SYNC_ROOT_DIR/*/; do
 done
 
 # 同步数据
-rsync -avz --password-file=${SYNC_SERVER_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${WORK_DIR}/ 
+rsync -avz --password-file=${CLIENT_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${WORK_DIR}/ 
