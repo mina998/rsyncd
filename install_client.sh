@@ -5,6 +5,17 @@ source .env
 rm -rf .git 2>/dev/null
 rm -f docker-compose.yml README.md rsyncd.conf rsyncd.secrets 2>/dev/null
 rm -rf logs/ 2>/dev/null
+# 获取当前脚本的软链接路径
+SYMLINK_PATH=$(readlink -f "$0")
+# 工作目录
+WORK_DIR=$(dirname "$SYMLINK_PATH")
+# 路径转换
+WORK_DIR=$(realpath "$WORK_DIR")
+# 创建工作目录
+if [ ! -d "$WORK_DIR" ]; then
+    mkdir -p $WORK_DIR
+fi
+cd $WORK_DIR
 # 如果docker未安装退出
 if ! command -v docker &> /dev/null; then
     echo "docker未安装"

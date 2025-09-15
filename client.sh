@@ -6,6 +6,12 @@ source .env
 CURRENT_SITE_ROOT=""
 # 当前站点名称
 CURRENT_HOST_NAME=""
+# 获取当前脚本的软链接路径
+SYMLINK_PATH=$(readlink -f "$0")
+# 工作目录
+WORK_DIR=$(dirname "$SYMLINK_PATH")
+# 路径转换
+WORK_DIR=$(realpath "$WORK_DIR")
 # 创建工作目录
 if [ ! -d "$WORK_DIR" ]; then
     mkdir -p $WORK_DIR
