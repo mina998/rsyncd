@@ -1,0 +1,15 @@
+services:
+  rsyncd:
+    image: vimagick/rsyncd:latest
+    container_name: rsyncd
+    restart: unless-stopped
+    ports:
+      - "873:873"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./rsyncd.conf:/etc/rsyncd.conf:ro
+      - ./rsyncd.secrets:/etc/rsyncd.secrets:ro
+      - ./logs:/var/log/rsync
+      - ./website-backup:/share
+
