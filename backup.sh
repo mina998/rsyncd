@@ -83,8 +83,7 @@ for dir in $SYNC_ROOT_DIR/*/; do
 done
 
 # 同步数据
-rsync -avz --password-file=${CLIENT_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${BACKUP_DIR}/ 
-echo "rsync -avz --password-file=${CLIENT_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${BACKUP_DIR}/ "
+rsync -avz --no-perms --no-owner --no-group --password-file=${WORK_DIR}/${CLIENT_PASSWORD_FILE} ${BACKUP_DIR}/ ${SYNC_SERVER_ADDRESS}::share 
 # 删除超过10天的备份文件
 echo "[$(date +"%Y-%m-%d %H:%M:%S")] 开始清理10天前的备份文件..."
 DELETED_COUNT=$(find ${BACKUP_DIR}/ -type f -mtime +10 -print | wc -l)
