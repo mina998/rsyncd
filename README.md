@@ -8,6 +8,7 @@ cd rsyncd
 # rsyncd.conf       配置文件
 # rsyncd.secrets    客户端账号密码
 # 在执行以下代码
+chmod 600 rsyncd.secrets && chmod 600 rsyncd.conf
 docker compose up -d
 ```
 
