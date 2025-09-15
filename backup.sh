@@ -82,6 +82,8 @@ for dir in $SYNC_ROOT_DIR/*/; do
     fi
 done
 
+# 有用
+# rsync -av --progress --info=progress2 --partial --append-verify --timeout=600 --contimeout=20 --no-perms --no-owner --no-group --password-file=/root/rsyncd/passwd /root/rsyncd/website-backup/ rsync://root@144.0.5.151/share/
 # 同步数据
 rsync -avz --no-perms --no-owner --no-group --password-file=${WORK_DIR}/${CLIENT_PASSWORD_FILE} ${BACKUP_DIR}/ ${SYNC_SERVER_ADDRESS}::share 
 # 删除超过10天的备份文件
