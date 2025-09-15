@@ -22,6 +22,8 @@ chmod 600 $CLIENT_PASSWORD_FILE
 
 # 当前目录
 CURRENT_DIR=$(pwd)
+# 创建日志目录
+mkdir -p $CURRENT_DIR/logs
 # 安全地管理定时任务,先删除旧的备份任务,再添加新的
 echo "正在配置定时任务..."
 # 删除包含 client.sh 的旧任务,保留其他任务
