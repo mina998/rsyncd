@@ -1,17 +1,7 @@
 #!/bin/bash
 
-# 同步服务器地址
-SYNC_SERVER_ADDRESS="10.0.0.178"
-# 密码文件
-SYNC_SERVER_PASSWORD_FILE="/root/client.txt"
-# 数据库密码
-MYSQL_ROOT_PASSWORD="463888"
-# 定义同步根目录
-SYNC_ROOT_DIR="/home/wwwroot"
-# WordPress 备份目录 结尾不要加 /
-WORDPRESS_BACKUP_DIR="wp-content/uploads"
-# 工作目录
-WORK_DIR="/root/rsync3"
+# 加载环境变量
+source .env
 # 当前站点根目录
 CURRENT_SITE_ROOT=""
 # 当前站点名称
