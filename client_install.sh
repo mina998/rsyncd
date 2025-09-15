@@ -1,6 +1,6 @@
 #!/bin/bash
 # 加载环境变量
-source env.sh
+source .env
 # 删除无用文件
 rm -rf .git 2>/dev/null
 rm -f docker-compose.yml README.md rsyncd.conf rsyncd.secrets 2>/dev/null

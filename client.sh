@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 加载环境变量
-source env.sh
+source .env
 # 当前站点根目录
 CURRENT_SITE_ROOT=""
 # 当前站点名称
@@ -68,9 +68,16 @@ for dir in $SYNC_ROOT_DIR/*/; do
         # 移除尾部斜杠，确保路径一致性
         CURRENT_SITE_ROOT="${dir%/}"
         CURRENT_HOST_NAME=$(basename "${dir%/}")
+        echo "[$(date +"%Y-%m-%d %H:%M:%S")] ($CURRENT_HOST_NAME) 开始备份站点."
         site_backup
+        echo "[$(date +"%Y-%m-%d %H:%M:%S")] ($CURRENT_HOST_NAME) 备份站点完成."
     fi
 done
 
 # 同步数据
 rsync -avz --password-file=${CLIENT_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${WORK_DIR}/ 
+# 删除超过10天的备份文件
+echo "[$(date +"%Y-%m-%d %H:%M:%S")] 开始清理10天前的备份文件..."
+DELETED_COUNT=$(find ${WORK_DIR}/ -type f -mtime +10 -print | wc -l)
+find ${WORK_DIR}/ -type f -mtime +10 -exec rm -f {} \;
+echo "[$(date +"%Y-%m-%d %H:%M:%S")] 清理完成，删除了 $DELETED_COUNT 个旧备份文件."
