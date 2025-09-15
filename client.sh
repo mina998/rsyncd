@@ -12,9 +12,11 @@ SYMLINK_PATH=$(readlink -f "$0")
 WORK_DIR=$(dirname "$SYMLINK_PATH")
 # 路径转换
 WORK_DIR=$(realpath "$WORK_DIR")
+# 备份目录
+BACKUP_DIR="${WORK_DIR}/backup"
 # 创建工作目录
-if [ ! -d "$WORK_DIR" ]; then
-    mkdir -p $WORK_DIR
+if [ ! -d "$BACKUP_DIR" ]; then
+    mkdir -p $BACKUP_DIR
 fi
 cd $WORK_DIR
 
@@ -55,7 +57,7 @@ function site_backup {
         return $?
     fi
     # 打包文件路径
-    local SAVE_BACKUP_FILE="${WORK_DIR}/${CURRENT_HOST_NAME}.$(date +"%Y%m%d_%H%M%S").tar.zst"
+    local SAVE_BACKUP_FILE="${BACKUP_DIR}/${CURRENT_HOST_NAME}.$(date +"%Y%m%d_%H%M%S").tar.zst"
     # 创建压缩备份
     tar -I zstd -cf "$SAVE_BACKUP_FILE" -C "${CURRENT_SITE_ROOT}/${WORDPRESS_BACKUP_DIR}/" .
     # 检查备份是否成功
@@ -81,9 +83,10 @@ for dir in $SYNC_ROOT_DIR/*/; do
 done
 
 # 同步数据
-rsync -avz --password-file=${CLIENT_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${WORK_DIR}/ 
+rsync -avz --password-file=${CLIENT_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${BACKUP_DIR}/ 
+echo "rsync -avz --password-file=${CLIENT_PASSWORD_FILE} ${SYNC_SERVER_ADDRESS}::share ${BACKUP_DIR}/ "
 # 删除超过10天的备份文件
 echo "[$(date +"%Y-%m-%d %H:%M:%S")] 开始清理10天前的备份文件..."
-DELETED_COUNT=$(find ${WORK_DIR}/ -type f -mtime +10 -print | wc -l)
-find ${WORK_DIR}/ -type f -mtime +10 -exec rm -f {} \;
+DELETED_COUNT=$(find ${BACKUP_DIR}/ -type f -mtime +10 -print | wc -l)
+find ${BACKUP_DIR}/ -type f -mtime +10 -exec rm -f {} \;
 echo "[$(date +"%Y-%m-%d %H:%M:%S")] 清理完成，删除了 $DELETED_COUNT 个旧备份文件."
